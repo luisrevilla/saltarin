@@ -33,21 +33,69 @@ Scene* Saltarin::createScene()
 
 bool Saltarin::init()
 {
+	float anchobtn=60.0;
+	float altobtn=60.0;
+	float menufondoancho=800;
+	float menufondoalto=480;
+	float posicionxbtn=0.0;
+	float posicionybtn=0.0;
+	
     if (!Layer::init())return false;
-        
+            
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	
+	//Creacion de las capas del juego
+	//Capas[0]=menu y opciones
+	//Capas[1]=area del juego
+	for(int ciclo=0;ciclo<4;ciclo++)
+	{			
+		Capas[ciclo]=new Layer();
+		Capas[ciclo]->setPosition(Vec2::ZERO);
+		Capas[ciclo]->setVisible(false);		
+		this->addChild(Capas[ciclo],ciclo);
+	}
+	//
+	
+	//Fondo del menu y opciones
+    auto fondomenu = Sprite::create("menufondo.png");
+	fondomenu->setScaleX(menufondoancho/fondomenu->getContentSize().width);  
+	fondomenu->setScaleY(menufondoalto/fondomenu->getContentSize().height); 
+	posicionxbtn=400.0;
+	posicionybtn=240.0;
+    fondomenu->setPosition(Vec2(posicionxbtn,posicionybtn));  	
+	Capas[MENUOPCIONES]->addChild(fondomenu,0);
 
-    auto quitItem = MenuItemImage::create("quitnormal.png","quitselected.png",CC_CALLBACK_1(Saltarin::quitCallback, this));    
-	quitItem->setPosition(Vec2(origin.x + visibleSize.width - quitItem->getContentSize().width/2 ,origin.y + quitItem->getContentSize().height/2));
+	//Creacion de los botones quit y play
+    auto quitItem = MenuItemImage::create("botonexitnormal.png","botonexitpress.png",CC_CALLBACK_1(Saltarin::quitCallback, this));    
+	quitItem->setScaleX(anchobtn/quitItem->getContentSize().width);  
+	quitItem->setScaleY(altobtn/quitItem->getContentSize().height); 
+	posicionxbtn=40.0;
+	posicionybtn=50.0;
+	quitItem->setPosition(Vec2(posicionxbtn,posicionybtn));
 
-    auto menuopciones = Menu::create(quitItem, NULL);
+	anchobtn=200.0;
+	altobtn=200.0;
+    auto playItem = MenuItemImage::create("botonplaynormal.png","botonplaypress.png",CC_CALLBACK_1(Saltarin::playCallback, this));    
+	playItem->setScaleX(anchobtn/playItem->getContentSize().width);  
+	playItem->setScaleY(altobtn/playItem->getContentSize().height); 
+	posicionxbtn=660.0;
+	posicionybtn=120.0;
+	playItem->setPosition(Vec2(posicionxbtn,posicionybtn));
+
+    auto menuopciones = Menu::create();
+    menuopciones->setVisible(true); 
     menuopciones->setPosition(Vec2::ZERO);
-    this->addChild(menuopciones, 0);
+    menuopciones->addChild(quitItem,0);
+    menuopciones->addChild(playItem,0);
+    Capas[MENUOPCIONES]->addChild(menuopciones, 1);
+    //
     
     auto titulo = Label::createWithTTF("Saltarin","fonts/arial.ttf",26);    
-    titulo->setPosition(Vec2(origin.x + visibleSize.width/2,origin.y + visibleSize.height - titulo->getContentSize().height));
-    this->addChild(titulo, 0);
+    titulo->setPosition(Vec2(400,380));
+    Capas[MENUOPCIONES]->addChild(titulo, 1);
+    
+    Capas[MENUOPCIONES]->setVisible(true); 
     
     return true;
 }
@@ -56,4 +104,9 @@ bool Saltarin::init()
 void Saltarin::quitCallback(Ref* pSender)
 {
     Director::getInstance()->end();
+}
+
+void Saltarin::playCallback(Ref* pSender)
+{
+
 }

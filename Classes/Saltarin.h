@@ -10,9 +10,13 @@ class Saltarin : public cocos2d::Layer
 public:
     static cocos2d::Scene* createScene();
 
+	#define MENUOPCIONES	0
+	#define AREAJUEGO	1
+	
     virtual bool init();
-   
+    cocos2d::Layer *Capas[4];
     void quitCallback(cocos2d::Ref* pSender);
+    void playCallback(Ref* pSender);
     
     CREATE_FUNC(Saltarin);
 };
