@@ -95,8 +95,33 @@ bool Saltarin::init()
     titulo->setPosition(Vec2(400,380));
     Capas[MENUOPCIONES]->addChild(titulo, 1);
     
+	//Creacion de los botones pausa
+	anchobtn=50.0;
+	altobtn=50.0;	
+    auto pausaItem = MenuItemImage::create("botonpausanormal.png","botonpausapress.png",CC_CALLBACK_1(Saltarin::pausaCallback, this));    
+	pausaItem->setScaleX(anchobtn/pausaItem->getContentSize().width);  
+	pausaItem->setScaleY(altobtn/pausaItem->getContentSize().height); 
+	posicionxbtn=800.0-((pausaItem->getContentSize().width*pausaItem->getScaleX())/2);
+	posicionybtn=480.0-((pausaItem->getContentSize().height*pausaItem->getScaleY())/2);
+	pausaItem->setPosition(Vec2(posicionxbtn,posicionybtn));
+
+    auto menuareanivel = Menu::create();
+    menuareanivel->setVisible(true); 
+    menuareanivel->setPosition(Vec2::ZERO);
+    menuareanivel->addChild(pausaItem,0);
+    Capas[AREAJUEGO]->addChild(menuareanivel, 2);
+    //    
+	//Fondo del nivel
+    auto fondonivel = Sprite::create("fondonivel.png");
+	fondonivel->setScaleX(menufondoancho/fondonivel->getContentSize().width);  
+	fondonivel->setScaleY(menufondoalto/fondonivel->getContentSize().height); 
+	posicionxbtn=400.0;
+	posicionybtn=240.0;
+    fondonivel->setPosition(Vec2(posicionxbtn,posicionybtn));  	
+	Capas[AREAJUEGO]->addChild(fondonivel,0);   
+    //    
     Capas[MENUOPCIONES]->setVisible(true); 
-    
+       
     return true;
 }
 
@@ -107,6 +132,12 @@ void Saltarin::quitCallback(Ref* pSender)
 }
 
 void Saltarin::playCallback(Ref* pSender)
+{
+	Capas[MENUOPCIONES]->setVisible(false);
+	Capas[AREAJUEGO]->setVisible(true);  
+}
+
+void Saltarin::pausaCallback(Ref* pSender)
 {
 
 }

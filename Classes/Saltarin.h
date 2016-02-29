@@ -17,6 +17,7 @@ public:
     cocos2d::Layer *Capas[4];
     void quitCallback(cocos2d::Ref* pSender);
     void playCallback(Ref* pSender);
+    void pausaCallback(Ref* pSender);
     
     CREATE_FUNC(Saltarin);
 };
