@@ -15,9 +15,11 @@ public:
 	
     virtual bool init();
     cocos2d::Layer *Capas[4];
+    cocos2d::Sprite3D *pp3D;
     void quitCallback(cocos2d::Ref* pSender);
     void playCallback(Ref* pSender);
     void pausaCallback(Ref* pSender);
+    void crearNivel();
     
     CREATE_FUNC(Saltarin);
 };

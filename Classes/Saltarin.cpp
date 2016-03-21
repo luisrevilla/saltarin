@@ -111,20 +111,70 @@ bool Saltarin::init()
     menuareanivel->addChild(pausaItem,0);
     Capas[AREAJUEGO]->addChild(menuareanivel, 2);
     //    
-	//Fondo del nivel
-    auto fondonivel = Sprite::create("fondonivel.png");
-	fondonivel->setScaleX(menufondoancho/fondonivel->getContentSize().width);  
-	fondonivel->setScaleY(menufondoalto/fondonivel->getContentSize().height); 
-	posicionxbtn=400.0;
-	posicionybtn=240.0;
-    fondonivel->setPosition(Vec2(posicionxbtn,posicionybtn));  	
-	Capas[AREAJUEGO]->addChild(fondonivel,0);   
-    //    
+    
+    crearNivel();
     Capas[MENUOPCIONES]->setVisible(true); 
        
     return true;
 }
 
+void Saltarin::crearNivel()
+{
+	float anchobtn=0.0;
+	float altobtn=0.0;
+	float posicionxbtn=0.0;
+	float posicionybtn=0.0;
+
+	//Fondo del nivel
+	anchobtn=800.0;
+	altobtn=480.0;	
+    auto fondonivel = Sprite::create("fondonivel.png");
+	fondonivel->setScaleX(anchobtn/fondonivel->getContentSize().width);  
+	fondonivel->setScaleY(altobtn/fondonivel->getContentSize().height); 
+	posicionxbtn=400.0;
+	posicionybtn=240.0;
+    fondonivel->setPosition(Vec2(posicionxbtn,posicionybtn));  	
+	Capas[AREAJUEGO]->addChild(fondonivel,0);   
+    //    	
+    
+	//Piso
+	anchobtn=800.0;
+	altobtn=50.0;		
+    auto pisonivel = Sprite::create("pisonivel.png");
+	pisonivel->setScaleX(anchobtn/pisonivel->getContentSize().width);  
+	pisonivel->setScaleY(altobtn/pisonivel->getContentSize().height); 
+	posicionxbtn=400.0;
+	posicionybtn=100.0;
+    pisonivel->setPosition(Vec2(posicionxbtn,posicionybtn));  	
+    pisonivel->setOpacity(0);
+	Capas[AREAJUEGO]->addChild(pisonivel,1);   
+	auto bodypn = PhysicsBody::createBox(pisonivel->getContentSize(), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	bodypn->setDynamic(false);	
+	pisonivel->setPhysicsBody(bodypn);
+    //         
+
+    //Personaje 
+	anchobtn=100.0;
+	altobtn=100.0;	    
+	pp3D=Sprite3D::create("model3d/personajep.c3b");
+	pp3D->setTexture("model3d/personajep.png"); 
+	pp3D->setRotation3D(Vec3(0,0,0)); 
+	pp3D->setScaleX(anchobtn/pp3D->getContentSize().width);
+	pp3D->setScaleY(altobtn/pp3D->getContentSize().height);
+	pp3D->setScaleZ(altobtn/pp3D->getContentSize().height);
+	posicionxbtn=400.0;
+	posicionybtn=240.0;	
+	pp3D->setPosition3D(Vec3(posicionxbtn,posicionybtn,0));
+	pp3D->setGlobalZOrder(1);   
+	pp3D->setVisible(true);	 
+	auto bodypp = PhysicsBody::createBox(pp3D->getContentSize(), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	bodypp->setDynamic(true);	
+	pp3D->setPhysicsBody(bodypp);		
+	Capas[AREAJUEGO]->addChild(pp3D,2);     
+    //
+    
+    
+}
 
 void Saltarin::quitCallback(Ref* pSender)
 {
@@ -139,5 +189,6 @@ void Saltarin::playCallback(Ref* pSender)
 
 void Saltarin::pausaCallback(Ref* pSender)
 {
-
+	Capas[MENUOPCIONES]->setVisible(true);
+	Capas[AREAJUEGO]->setVisible(false);  
 }
